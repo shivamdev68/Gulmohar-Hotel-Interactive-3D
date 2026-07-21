@@ -1,18 +1,20 @@
 import * as THREE from "three";
 
 export default class Camera {
-    constructor() {
+    constructor(settings) {
+        this.settings = settings;
         this.camera = new THREE.PerspectiveCamera(
-            75,
+            settings.fov,
             window.innerWidth / window.innerHeight,
-            0.1,
-            1000
+            settings.near,
+            settings.far,
         );
 
-        // Initial camera position
-        this.camera.position.set(8, 6, 10);
-
-        // Look toward the center of the scene
+        this.camera.position.set(
+            settings.position.x,
+            settings.position.y,
+            settings.position.z,
+        );
         this.camera.lookAt(0, 0, 0);
     }
 
@@ -28,8 +30,8 @@ export default class Camera {
         this.camera.lookAt(x, y, z);
     }
 
-    resize() {
-        this.camera.aspect = window.innerWidth / window.innerHeight;
+    resize(width, height) {
+        this.camera.aspect = width / height;
         this.camera.updateProjectionMatrix();
     }
 }

@@ -1,14 +1,14 @@
 import * as THREE from "three";
 
 export default class Scene {
-    constructor() {
+    constructor(settings) {
         this.scene = new THREE.Scene();
-
-        // Background color
-        this.scene.background = new THREE.Color(0xf5f5f5);
-
-        // Optional fog for depth perception
-        this.scene.fog = new THREE.Fog(0xf5f5f5, 40, 150);
+        this.scene.background = new THREE.Color(settings.backgroundColor);
+        this.scene.fog = new THREE.Fog(
+            settings.backgroundColor,
+            settings.fog.near,
+            settings.fog.far,
+        );
     }
 
     getScene() {

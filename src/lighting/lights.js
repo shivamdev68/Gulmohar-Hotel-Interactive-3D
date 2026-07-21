@@ -1,30 +1,25 @@
 import * as THREE from "three";
 
 export default class Lights {
-    constructor(scene) {
+    constructor(scene, settings) {
         this.scene = scene;
 
-        // Ambient Light
-        this.ambientLight = new THREE.AmbientLight(
-            0xffffff,
-            0.6
-        );
+        this.ambientLight = new THREE.AmbientLight(0xffffff, settings.ambientIntensity);
 
-        // Directional Light (Sun)
-        this.directionalLight = new THREE.DirectionalLight(
-            0xffffff,
-            2
-        );
+        this.directionalLight = new THREE.DirectionalLight(0xffffff, settings.directionalIntensity);
 
-        this.directionalLight.position.set(10, 20, 10);
+        this.directionalLight.position.set(
+            settings.directionalPosition.x,
+            settings.directionalPosition.y,
+            settings.directionalPosition.z,
+        );
 
         this.directionalLight.castShadow = true;
 
-        this.directionalLight.shadow.mapSize.width = 2048;
-        this.directionalLight.shadow.mapSize.height = 2048;
+        this.directionalLight.shadow.mapSize.set(settings.shadowMapSize, settings.shadowMapSize);
 
-        this.directionalLight.shadow.camera.near = 0.5;
-        this.directionalLight.shadow.camera.far = 100;
+        this.directionalLight.shadow.camera.near = settings.shadowCameraNear;
+        this.directionalLight.shadow.camera.far = settings.shadowCameraFar;
 
         scene.add(this.ambientLight);
         scene.add(this.directionalLight);

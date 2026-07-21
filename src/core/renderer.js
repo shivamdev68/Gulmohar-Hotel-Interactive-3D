@@ -1,21 +1,20 @@
 import * as THREE from "three";
 
 export default class Renderer {
-    constructor() {
+    constructor(settings, container) {
         this.renderer = new THREE.WebGLRenderer({
-            antialias: true,
-            alpha: true
+            antialias: settings.antialias,
         });
 
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this.pixelRatio = settings.pixelRatio;
+        this.renderer.setPixelRatio(this.pixelRatio);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
 
-        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.enabled = settings.shadows;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
         this.renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-        document.body.appendChild(this.renderer.domElement);
+        container.appendChild(this.renderer.domElement);
     }
 
     getRenderer() {
@@ -26,18 +25,9 @@ export default class Renderer {
         this.renderer.render(scene, camera);
     }
 
-    resize(camera) {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        this.renderer.setSize(
-            window.innerWidth,
-            window.innerHeight
-        );
-
-        this.renderer.setPixelRatio(
-            Math.min(window.devicePixelRatio, 2)
-        );
+    resize(width, height) {
+        this.renderer.setSize(width, height);
+        this.renderer.setPixelRatio(this.pixelRatio);
     }
 
     dispose() {

@@ -1,10 +1,10 @@
 import * as THREE from "three";
 
 export default class Grid {
-    constructor(scene) {
+    constructor(scene, settings) {
         this.grid = new THREE.GridHelper(
-            100,
-            100,
+            settings.gridSize,
+            settings.gridDivisions,
             0x888888,
             0xcccccc
         );
